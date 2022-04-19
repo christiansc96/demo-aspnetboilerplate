@@ -31,20 +31,4 @@ export class TermDto implements ITermDto {
         result.init(data);
         return result;
     }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["days"] = this.days;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        return data;
-    }
-
-    clone(): TermDto {
-        const json = this.toJSON();
-        let result = new TermDto();
-        result.init(json);
-        return result;
-    }
 }

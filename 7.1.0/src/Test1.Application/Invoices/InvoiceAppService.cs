@@ -51,6 +51,27 @@ namespace Test1.Invoices
         }
 
         /// <summary>
+        /// Request to get invoice by id.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<InvoiceDto> GetInvoice(EntityDto<int> input)
+        {
+            Invoice invoiceFromDatabase = await _invoiceRepository.GetAsync(input.Id);
+            if (invoiceFromDatabase == null)
+                return null;
+
+            return new InvoiceDto()
+            {
+                Id = invoiceFromDatabase.Id,
+                InvoiceNumber = invoiceFromDatabase.InvoiceNumber,
+                InvoiceDate = invoiceFromDatabase.InvoiceDate,
+                Customer = invoiceFromDatabase.Customer,
+                TermDays = invoiceFromDatabase.TermDays,
+                Total = invoiceFromDatabase.Total
+            };
+        }
+
+        /// <summary>
         /// Request to get invoices.
         /// </summary>
         /// <returns></returns>

@@ -1,0 +1,60 @@
+<form class="form-horizontal" autocomplete="off" #editInvoiceForm="ngForm" (ngSubmit)="save()">
+    <abp-modal-header [title]="'Edit Invoice' | localize" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="invoiceNumber">
+                {{ "Invoice Number" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="invoiceNumber" id="invoiceNumber" maxlength="100" required
+                    [(ngModel)]="invoice.invoiceNumber" #invoiceNumberModel="ngModel" #invoiceNumberEl />
+                <abp-validation-summary [control]="invoiceNumberModel" [controlEl]="invoiceNumberEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="invoiceDate">
+                {{ "Invoice Date" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="date" class="form-control" name="invoiceDate" id="invoiceDate" required
+                    [(ngModel)]="invoice.invoiceDate" #invoiceDateModel="ngModel" #invoiceDateEl />
+                <abp-validation-summary [control]="invoiceDateModel" [controlEl]="invoiceDateEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="customer">
+                {{ "Customer" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="customer" id="customer" maxlength="400" required
+                    [(ngModel)]="invoice.customer" #customerModel="ngModel" #customerEl />
+                <abp-validation-summary [control]="customerModel" [controlEl]="customerEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="termDays">
+                {{ "Term Days" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="number" class="form-control" name="termDays" id="termDays" min="1" required
+                    [(ngModel)]="invoice.termDays" #termDaysModel="ngModel" #termDaysEl />
+                <abp-validation-summary [control]="termDaysModel" [controlEl]="termDaysEl"></abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="total">
+                {{ "Total" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="number" class="form-control" name="total" id="total" min="1" required
+                    [(ngModel)]="invoice.total" #totalModel="ngModel" #totalEl />
+                <abp-validation-summary [control]="totalModel" [controlEl]="totalEl"></abp-validation-summary>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!editInvoiceForm.form.valid || saving"
+        (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+</form>

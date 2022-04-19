@@ -1,43 +1,36 @@
 import {
   Component,
   Injector,
-  OnInit,
   Output,
   EventEmitter
 } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/app-component-base';
-import {
-  CreateTenantDto,
-  TenantServiceProxy
-} from '@shared/service-proxies/service-proxies';
+import { CreateInvoiceDto } from '@shared/dtos/create.invoice.dto';
+import { InvoiceServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @Component({
-  templateUrl: './create-term.component.html'
+  templateUrl: './create-invoice-dialog.component.html',
 })
-export class CreateTermtDialogComponent extends AppComponentBase
-  implements OnInit {
+
+export class CreateInvoiceDialogComponent extends AppComponentBase {
   saving = false;
-  tenant: CreateTenantDto = new CreateTenantDto();
+  invoice: CreateInvoiceDto = new CreateInvoiceDto();
 
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
-    public _tenantService: TenantServiceProxy,
+    public _invoiceService: InvoiceServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
   }
 
-  ngOnInit(): void {
-    this.tenant.isActive = true;
-  }
-
   save(): void {
     this.saving = true;
 
-    this._tenantService.create(this.tenant).subscribe(
+    this._invoiceService.create(this.invoice).subscribe(
       () => {
         this.notify.info(this.l('SavedSuccessfully'));
         this.bsModalRef.hide();
