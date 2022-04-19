@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Test1.Invoices.Dto
@@ -20,5 +21,12 @@ namespace Test1.Invoices.Dto
 
         [Range(1, int.MaxValue, ErrorMessage = "The value is out of range")]
         public double Total { get; set; }
+
+        public List<CreateInvoiceDetailInput> Details { get; set; }
+
+        public CreateInvoiceInput()
+        {
+            Details = new List<CreateInvoiceDetailInput>();
+        }
     }
 }

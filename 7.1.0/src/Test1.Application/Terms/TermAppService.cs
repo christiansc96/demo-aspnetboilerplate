@@ -28,7 +28,6 @@ namespace Test1.Terms
         /// Request to create a new term.
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         public async Task CreateTerm(CreateTermInput input)
         {
             await _termRepository.InsertAsync(new Term { Name = input.Name, Days = input.Days });
@@ -38,7 +37,6 @@ namespace Test1.Terms
         /// Request to delete a term.
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         public async Task DeleteTerm(EntityDto<int> input)
         {
             Term termFromDatabase = await _termRepository.GetAsync(input.Id);
@@ -85,7 +83,6 @@ namespace Test1.Terms
         /// Request to update a term.
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         public async Task UpdateTerm(UpdateTermInput input)
         {
             Term termFromDatabase = await _termRepository.GetAsync(input.Id);
