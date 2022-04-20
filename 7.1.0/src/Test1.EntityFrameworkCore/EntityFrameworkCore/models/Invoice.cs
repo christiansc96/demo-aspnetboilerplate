@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Test1.EntityFrameworkCore.models
 {
-    public class Invoice : Entity<int>, IHasCreationTime
+    public class Invoice : Entity<int>, IHasCreationTime, IHasModificationTime
     {
         [StringLength(100)]
         [Required]
@@ -22,6 +22,8 @@ namespace Test1.EntityFrameworkCore.models
         public virtual double Total { get; set; }        
         
         public virtual DateTime CreationTime { get; set; }
+
+        public DateTime? LastModificationTime { get; set; }
 
         public Invoice()
         {

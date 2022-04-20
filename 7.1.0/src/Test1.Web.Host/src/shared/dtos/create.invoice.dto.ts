@@ -1,4 +1,5 @@
 import { ICreateInvoiceDto } from './../interfaces/create.invoice.interface';
+import { CreateInvoiceDetailDto } from './../dtos/create.invoice.detail.dto';
 import * as moment from 'moment';
 
 export class CreateInvoiceDto implements ICreateInvoiceDto {
@@ -7,6 +8,7 @@ export class CreateInvoiceDto implements ICreateInvoiceDto {
     customer: string;
     termDays: number;
     total: number;
+    details: any;
 
     constructor(data?: ICreateInvoiceDto) {
         if (data) {
@@ -24,6 +26,9 @@ export class CreateInvoiceDto implements ICreateInvoiceDto {
             this.customer = _data["customer"];
             this.termDays = _data["termDays"];
             this.total = _data["total"];
+            this.details = _data["details"] ? _data["details"].map(function (val: any, index: number) {
+                return CreateInvoiceDetailDto.fromJS(val);
+            }) : [];
         }
     }
 
@@ -41,6 +46,7 @@ export class CreateInvoiceDto implements ICreateInvoiceDto {
         data["customer"] = this.customer;
         data["termDays"] = this.termDays;
         data["total"] = this.total;
+        data["details"] = this.details ? this.details : [];
         return data;
     }
 

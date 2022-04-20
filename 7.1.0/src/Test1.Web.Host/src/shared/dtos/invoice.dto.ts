@@ -1,4 +1,5 @@
 import { IInvoiceDto } from './../interfaces/invoice.interface';
+import { InvoiceDetailDto } from './../dtos/invoice.detail.dto';
 import * as moment from 'moment';
 
 export class InvoiceDto implements IInvoiceDto {
@@ -9,6 +10,7 @@ export class InvoiceDto implements IInvoiceDto {
     termDays: number;
     total: number;
     creationTime: moment.Moment;
+    details: InvoiceDetailDto[]
 
     constructor(data?: IInvoiceDto) {
         if (data) {
@@ -28,6 +30,9 @@ export class InvoiceDto implements IInvoiceDto {
             this.termDays = _data["termDays"];
             this.total = _data["total"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.details = _data["details"] ? _data["details"].map(function (val: any, index: number) {
+                return InvoiceDetailDto.fromJS(val);
+            }) : [];
         }
     }
 

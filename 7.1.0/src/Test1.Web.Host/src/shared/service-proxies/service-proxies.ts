@@ -226,7 +226,7 @@ export class InvoiceServiceProxy {
     create(body: CreateInvoiceDto | undefined): Observable<CreateInvoiceDto> {
         let url_ = this.baseUrl + "/api/services/app/Invoice/CreateInvoice";
         url_ = url_.replace(/[?&]$/, "");
-        const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body.toJSON());
         let options_: any = {
             body: content_,
             observe: "response",
@@ -266,7 +266,6 @@ export class InvoiceServiceProxy {
                 return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            console.log(400);
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
@@ -425,7 +424,6 @@ export class InvoiceServiceProxy {
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result200 = InvoiceDto.fromJS(resultData200);
-                console.log(result200);
                 return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1364,8 +1362,6 @@ export class TermServiceProxy {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
         if (status === 200) {
-
-            console.log(200);
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -1373,7 +1369,6 @@ export class TermServiceProxy {
                 return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            console.log(400);
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));

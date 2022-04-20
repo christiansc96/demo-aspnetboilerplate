@@ -100,7 +100,7 @@
                                     <th style="width: 310px;">{{ "Actions" | localize }}</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-center">
                                 <tr *ngFor="
                   let term of terms
                     | paginate
@@ -111,10 +111,10 @@
                           totalItems: totalItems
                         }
                 ">
-                                    <td>{{ term.name }}</td>
+                                    <td class="text-left">{{ term.name }}</td>
                                     <td>{{ term.days }}</td>
                                     <td>{{ term.creationTime | date:'long' }}</td>
-                                    <td class="text-center">
+                                    <td>
                                         <button type="button" class="btn btn-sm bg-secondary" (click)="editTerm(term)">
                                             <i class="fas fa-pencil-alt mr-1"></i>
                                             {{ "Edit" | localize }}

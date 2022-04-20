@@ -3,7 +3,6 @@ using Abp.Domain.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using Test1.EntityFrameworkCore.models;
 using Test1.Invoices.Dto;
 
@@ -37,34 +36,31 @@ namespace Test1.Invoices
         {
             if (input.Details.Count > 0)
             {
-                using TransactionScope trans = new(TransactionScopeAsyncFlowOption.Enabled);
                 try
                 {
-                    double total = input.Details.Sum(detail => detail.QTY * detail.Price);
-                    Invoice newInvoice = await _invoiceRepository.InsertAsync(new Invoice
+                    double total = input.Details.Sum(detail => detail.qty * detail.price);
+                    int newInvoice =  _invoiceRepository.InsertAndGetIdAsync(new Invoice
                     {
                         InvoiceNumber = input.InvoiceNumber,
                         InvoiceDate = input.InvoiceDate,
                         Customer = input.Customer,
                         TermDays = input.TermDays,
                         Total = total
-                    });
+                    }).Result;
 
                     foreach (var detail in input.Details)
                     {
                         await _invoiceDetailRepository.InsertAsync(new InvoiceDetail
                         {
-                            InvoiceId = newInvoice.Id,
-                            QTY = detail.QTY,
-                            Price = detail.Price,
-                            TotalLine = detail.QTY * detail.Price
+                            InvoiceId = newInvoice,
+                            QTY = detail.qty,
+                            Price = detail.price,
+                            TotalLine = detail.qty * detail.price
                         });
                     }
-                    trans.Complete();
                 }
                 catch
                 {
-                    trans.Dispose();
                     throw;
                 }
             }
@@ -79,7 +75,6 @@ namespace Test1.Invoices
             Invoice invoiceFromDatabase = await _invoiceRepository.GetAsync(input.Id);
             if (invoiceFromDatabase != null)
             {
-                using TransactionScope trans = new(TransactionScopeAsyncFlowOption.Enabled);
                 try
                 {
                     List<InvoiceDetail> invoiceDetailsFromDatabase = await _invoiceDetailRepository
@@ -90,11 +85,9 @@ namespace Test1.Invoices
                         await _invoiceDetailRepository.DeleteAsync(detail);
                     }
                     await _invoiceRepository.DeleteAsync(invoiceFromDatabase);
-                    trans.Complete();
                 }
                 catch
                 {
-                    trans.Dispose();
                     throw;
                 }
             }

@@ -28,6 +28,14 @@ export class CreateTermDialogComponent extends AppComponentBase {
     super(injector);
   }
 
+  onlyIntegers(event: any) {
+    const pattern = /[0-9\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
   save(): void {
     this.saving = true;
     this._termService.create(this.term).subscribe(

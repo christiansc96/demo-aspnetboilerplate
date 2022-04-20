@@ -37,6 +37,23 @@ export class EditInvoiceDialogComponent extends AppComponentBase implements OnIn
     });
   }
 
+  onlyIntegers(event: any) {
+    const pattern = /[0-9\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+
+  onlyNumbers(event: any) {
+    const pattern = /[0-9\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
   save(): void {
     this.saving = true;
     this._invoiceService.update(this.invoice).subscribe(

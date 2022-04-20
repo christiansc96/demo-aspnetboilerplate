@@ -17,7 +17,7 @@
             </label>
             <div class="col-md-9">
                 <input type="number" class="form-control" name="days" id="days" min="1" required [(ngModel)]="term.days"
-                    #daysModel="ngModel" #daysEl />
+                    #daysModel="ngModel" #daysEl (keypress)="onlyIntegers($event)" />
                 <abp-validation-summary [control]="daysModel" [controlEl]="daysEl"></abp-validation-summary>
             </div>
         </div>
