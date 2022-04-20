@@ -57,6 +57,10 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'fas fa-building',
                 'Pages.Tenants'
             ), new MenuItem(
+                this.l('Invoices'),
+                '/app/invoices',
+                'fas fa-file-invoice'
+            ), new MenuItem(
                 this.l('Terms'),
                 '/app/terms',
                 'fas fa-shield-alt'

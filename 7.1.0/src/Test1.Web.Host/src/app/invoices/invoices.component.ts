@@ -1,60 +1,60 @@
 import { Component, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { finalize } from 'rxjs/operators';
+import { InvoiceDto } from '@shared/dtos/invoice.dto';
 import {
   PagedListingComponentBase,
   PagedRequestDto
 } from 'shared/paged-listing-component-base';
-import { TermServiceProxy } from '@shared/service-proxies/service-proxies';
-import { TermDtoPagedResultDto } from '@shared/service-proxies/pages/term.page';
-import { TermDto } from '@shared/dtos/term.dto';
-import { CreateTermDialogComponent } from './create-term/create-term-dialog.component'
+import { InvoiceServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { EditTermDialogComponent } from './edit-term/edit-term-dialog.component';
+import { InvoiceDtoPagedResultDto } from '@shared/service-proxies/pages/invoice.page';
+import { CreateInvoiceDialogComponent } from './create-invoice/create-invoice-dialog.component';
+import { EditInvoiceDialogComponent } from './edit-invoice/edit-invoice-dialog.component';
 
-class PagedTermsRequestDto extends PagedRequestDto {
+class PagedInvoicesRequestDto extends PagedRequestDto {
   keyword: string;
   isActive: boolean | null;
 }
 
 @Component({
-  templateUrl: './terms.component.html',
+  templateUrl: './invoices.component.html',
   animations: [appModuleAnimation()]
 })
-export class TermsComponent extends PagedListingComponentBase<TermDto> {
-  terms: TermDto[] = [];
+export class InvoicesComponent extends PagedListingComponentBase<InvoiceDto> {
+  invoices: InvoiceDto[] = [];
   keyword = '';
   isActive: boolean | null;
   advancedFiltersVisible = false;
 
   constructor(
     injector: Injector,
-    private _termService: TermServiceProxy,
+    private _invoiceService: InvoiceServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);
   }
 
-  createTerm(): void {
-    this.showCreateOrEditTermDialog();
+  createInvoice(): void {
+    this.showCreateOrEditInvoiceDialog();
   }
 
-  editTerm(term: TermDto): void {
-    this.showCreateOrEditTermDialog(term.id);
+  editInvoice(term: InvoiceDto): void {
+    this.showCreateOrEditInvoiceDialog(term.id);
   }
 
-  showCreateOrEditTermDialog(id?: number): void {
-    let createOrEditTermDialog: BsModalRef;
+  showCreateOrEditInvoiceDialog(id?: number): void {
+    let createOrEditInvoiceDialog: BsModalRef;
     if (!id) {
-      createOrEditTermDialog = this._modalService.show(
-        CreateTermDialogComponent,
+      createOrEditInvoiceDialog = this._modalService.show(
+        CreateInvoiceDialogComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
-      createOrEditTermDialog = this._modalService.show(
-        EditTermDialogComponent,
+      createOrEditInvoiceDialog = this._modalService.show(
+        EditInvoiceDialogComponent,
         {
           class: 'modal-lg',
           initialState: {
@@ -64,18 +64,18 @@ export class TermsComponent extends PagedListingComponentBase<TermDto> {
       );
     }
 
-    createOrEditTermDialog.content.onSave.subscribe(() => {
+    createOrEditInvoiceDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
   }
 
-  protected delete(term: TermDto): void {
+  protected delete(invoice: InvoiceDto): void {
     abp.message.confirm(
-      this.l(`Term ${term.name} will be deleted.`, ''),
+      this.l(`Invoice #${invoice.invoiceNumber} will be deleted.`, ''),
       undefined,
       (result: boolean) => {
         if (result) {
-          this._termService.delete(term.id).subscribe(() => {
+          this._invoiceService.delete(invoice.id).subscribe(() => {
             abp.notify.success(this.l('SuccessfullyDeleted'));
             this.refresh();
           });
@@ -91,14 +91,14 @@ export class TermsComponent extends PagedListingComponentBase<TermDto> {
   }
 
   protected list(
-    request: PagedTermsRequestDto,
+    request: PagedInvoicesRequestDto,
     pageNumber: number,
     finishedCallback: Function
   ): void {
     request.keyword = this.keyword;
     request.isActive = this.isActive;
 
-    this._termService
+    this._invoiceService
       .getAll(
       )
       .pipe(
@@ -106,8 +106,8 @@ export class TermsComponent extends PagedListingComponentBase<TermDto> {
           finishedCallback();
         })
       )
-      .subscribe((result: TermDtoPagedResultDto) => {
-        this.terms = result.items;
+      .subscribe((result: InvoiceDtoPagedResultDto) => {
+        this.invoices = result.items;
         this.showPaging(result, pageNumber);
       });
   }

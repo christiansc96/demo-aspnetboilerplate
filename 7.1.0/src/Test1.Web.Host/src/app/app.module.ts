@@ -40,39 +40,50 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 //terms
 import { TermsComponent } from './terms/terms.component';
-import { CreateTermtDialogComponent } from './terms/create-term/create-term.component';
+import { CreateTermDialogComponent } from './terms/create-term/create-term-dialog.component';
+import { EditTermDialogComponent } from './terms/edit-term/edit-term-dialog.component';
+import { InvoicesComponent } from './invoices/invoices.component';
+import { CreateInvoiceDialogComponent } from './invoices/create-invoice/create-invoice-dialog.component';
+import { EditInvoiceDialogComponent } from './invoices/edit-invoice/edit-invoice-dialog.component';
 
 @NgModule({
   declarations: [
+    // general
+    AboutComponent,
     AppComponent,
     HomeComponent,
-    AboutComponent,
-    // tenants
-    TenantsComponent,
-    CreateTenantDialogComponent,
-    EditTenantDialogComponent,
+    // invoices
+    CreateInvoiceDialogComponent,
+    EditInvoiceDialogComponent,
+    InvoicesComponent,
     // roles
-    RolesComponent,
     CreateRoleDialogComponent,
     EditRoleDialogComponent,
+    RolesComponent,
     // users
-    UsersComponent,
+    ChangePasswordComponent,
     CreateUserDialogComponent,
     EditUserDialogComponent,
-    ChangePasswordComponent,
     ResetPasswordDialogComponent,
+    UsersComponent,
+    // tenants
+    CreateTenantDialogComponent,
+    EditTenantDialogComponent,
+    TenantsComponent,
+    // terms
+    CreateTermDialogComponent,
+    EditTermDialogComponent,
+    TermsComponent,
     // layout
-    HeaderComponent,
-    HeaderLeftNavbarComponent,
-    HeaderLanguageMenuComponent,
-    HeaderUserMenuComponent,
     FooterComponent,
+    HeaderComponent,
+    HeaderLanguageMenuComponent,
+    HeaderLeftNavbarComponent,
+    HeaderUserMenuComponent,
     SidebarComponent,
     SidebarLogoComponent,
-    SidebarUserPanelComponent,
     SidebarMenuComponent,
-    // terms
-    TermsComponent
+    SidebarUserPanelComponent,
   ],
   imports: [
     CommonModule,
@@ -91,9 +102,15 @@ import { CreateTermtDialogComponent } from './terms/create-term/create-term.comp
   ],
   providers: [],
   entryComponents: [
+    // invoices
+    CreateInvoiceDialogComponent,
+    EditInvoiceDialogComponent,
     // tenants
     CreateTenantDialogComponent,
     EditTenantDialogComponent,
+    // terms
+    CreateTermDialogComponent,
+    EditTermDialogComponent,
     // roles
     CreateRoleDialogComponent,
     EditRoleDialogComponent,
@@ -101,8 +118,6 @@ import { CreateTermtDialogComponent } from './terms/create-term/create-term.comp
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ResetPasswordDialogComponent,
-    // terms
-    CreateTermtDialogComponent,
   ],
 })
 export class AppModule { }

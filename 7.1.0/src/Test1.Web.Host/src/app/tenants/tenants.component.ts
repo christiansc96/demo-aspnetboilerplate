@@ -77,7 +77,7 @@ export class TenantsComponent extends PagedListingComponentBase<TenantDto> {
                 this.refresh();
               })
             )
-            .subscribe(() => {});
+            .subscribe(() => { });
         }
       }
     );

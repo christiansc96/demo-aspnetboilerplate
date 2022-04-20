@@ -8,12 +8,15 @@ using Test1.Terms.Dto;
 
 namespace Test1.Terms
 {
+    /// <summary>
+    /// This repository is the administrator of the TERM entity.
+    /// </summary>
     public class TermAppService : Test1AppServiceBase, ITermAppService
     {
         private readonly IRepository<Term> _termRepository;
 
         /// <summary>
-        /// 
+        /// This is the constructor of the repository.
         /// </summary>
         /// <param name="termRepository"></param>
         public TermAppService(IRepository<Term> termRepository)
@@ -25,7 +28,6 @@ namespace Test1.Terms
         /// Request to create a new term.
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         public async Task CreateTerm(CreateTermInput input)
         {
             await _termRepository.InsertAsync(new Term { Name = input.Name, Days = input.Days });
@@ -35,15 +37,34 @@ namespace Test1.Terms
         /// Request to delete a term.
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         public async Task DeleteTerm(EntityDto<int> input)
         {
             Term termFromDatabase = await _termRepository.GetAsync(input.Id);
-            await _termRepository.DeleteAsync(termFromDatabase);
+            if (termFromDatabase != null)
+                await _termRepository.DeleteAsync(termFromDatabase);
         }
 
         /// <summary>
-        /// Request to create terms.
+        /// Request to get a term by id.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<TermDto> GetTerm(EntityDto<int> input)
+        {
+            Term termFromDatabase = await _termRepository.GetAsync(input.Id);
+            if (termFromDatabase == null)
+                return null;
+
+            return new TermDto
+            {
+                Id = termFromDatabase.Id,
+                Name = termFromDatabase.Name,
+                Days = termFromDatabase.Days,
+                CreationTime = termFromDatabase.CreationTime,
+            };
+        }
+
+        /// <summary>
+        /// Request to get terms.
         /// </summary>
         /// <returns></returns>
         public async Task<List<TermListDto>> GetTerms()
@@ -62,14 +83,15 @@ namespace Test1.Terms
         /// Request to update a term.
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         public async Task UpdateTerm(UpdateTermInput input)
         {
             Term termFromDatabase = await _termRepository.GetAsync(input.Id);
-
-            termFromDatabase.Name = input.Name;
-            termFromDatabase.Days = input.Days;
-            await _termRepository.UpdateAsync(termFromDatabase);
+            if (termFromDatabase != null)
+            {
+                termFromDatabase.Name = input.Name;
+                termFromDatabase.Days = input.Days;
+                await _termRepository.UpdateAsync(termFromDatabase);
+            }
         }
     }
 }
