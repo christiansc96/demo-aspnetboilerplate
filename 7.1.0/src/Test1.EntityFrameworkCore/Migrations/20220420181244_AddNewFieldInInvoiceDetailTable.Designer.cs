@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Test1.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using Test1.EntityFrameworkCore;
 namespace Test1.Migrations
 {
     [DbContext(typeof(Test1DbContext))]
-    partial class Test1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20220420181244_AddNewFieldInInvoiceDetailTable")]
+    partial class AddNewFieldInInvoiceDetailTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

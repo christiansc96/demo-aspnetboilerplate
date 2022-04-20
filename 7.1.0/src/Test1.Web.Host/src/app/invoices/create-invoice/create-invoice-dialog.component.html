@@ -47,45 +47,52 @@
             </div>
         </div>
         <div class="form-group row required">
-            <label class="col-md-3 col-form-label" for="total">
+            <form [formGroup]="invoiceForm" class="col-sm-12">
+                <table class="table table-striped table-bordered" border=1>
+                    <thead class="bg-light text-center">
+                        <tr>
+                            <th>{{ "#" | localize }}</th>
+                            <th>{{ "Description" | localize }}</th>
+                            <th>{{ "Quantity" | localize }}</th>
+                            <th>{{ "Price" | localize }}</th>
+                            <th>{{ "Total Line" | localize }}</th>
+                            <th>{{ "Actions" | localize }}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" formArrayName="Rows">
+                        <tr *ngFor="let itemrow of formArr.controls; let i=index;let l=last" [formGroupName]="i">
+                            <td>{{i+1}}</td>
+                            <td class="col-sm-3">
+                                <input formControlName="description" class="form-control text-center" type="text"
+                                    maxlength="400">
+                            </td>
+                            <td class="col-sm-3">
+                                <input formControlName="qty" class="form-control text-center" type="text"
+                                    (change)="calculateTotal(i)" (keypress)="onlyIntegers($event)">
+                            </td>
+                            <td class="col-sm-3">
+                                <input formControlName="price" class="form-control text-center" type="text"
+                                    (change)="calculateTotal(i)" (keypress)="onlyDecimals($event)">
+                            </td>
+                            <td>{{ itemrow.value.totalLine | currency }}</td>
+                            <td>
+                                <button *ngIf="invoiceForm.controls.Rows.controls.length > 1" (click)="deleteRow(i)"
+                                    class="btn btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <button type="button" (click)="addNewRow()" class="btn btn-primary col-sm-3">Add new Row</button>
+        </div>
+        <div class="form-group row required text-right">
+            <label class="col-md-3 col-form-label ml-auto" for="total">
                 {{ "Total" | localize }}
             </label>
-            <div class="col-md-9">
+            <div class="col-md-3">
                 <span>{{ invoice.total | currency }}</span>
             </div>
         </div>
-        <form [formGroup]="invoiceForm">
-            <table class="table table-striped table-bordered" border=1>
-                <thead class="bg-light text-center">
-                    <tr>
-                        <th>{{ "#" | localize }}</th>
-                        <th>{{ "Quantity" | localize }}</th>
-                        <th>{{ "Price" | localize }}</th>
-                        <th>{{ "Total Line" | localize }}</th>
-                        <th>{{ "Actions" | localize }}</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center" formArrayName="Rows">
-                    <tr *ngFor="let itemrow of formArr.controls; let i=index;let l=last" [formGroupName]="i">
-                        <td>{{i+1}}</td>
-                        <td class="col-sm-3">
-                            <input formControlName="qty" class="form-control text-center" type="text" (change)="calculateTotal(i)"
-                                (keypress)="onlyIntegers($event)">
-                        </td>
-                        <td class="col-sm-3">
-                            <input formControlName="price" class="form-control text-center" type="text" (change)="calculateTotal(i)"
-                                (keypress)="onlyDecimals($event)">
-                        </td>
-                        <td>{{ itemrow.value.totalLine | currency }}</td>
-                        <td>
-                            <button *ngIf="invoiceForm.controls.Rows.controls.length > 1" (click)="deleteRow(i)"
-                                class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-        <button type="button" (click)="addNewRow()" class="btn btn-primary">Add new Row</button>
     </div>
     <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createInvoiceForm.form.valid || saving"
         (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>

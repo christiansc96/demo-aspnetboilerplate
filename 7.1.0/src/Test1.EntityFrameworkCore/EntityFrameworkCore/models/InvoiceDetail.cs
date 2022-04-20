@@ -9,11 +9,14 @@ namespace Test1.EntityFrameworkCore.models
     public class InvoiceDetail : Entity<int>, IHasCreationTime, IHasModificationTime
     {
         [Key]
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
+
+        [StringLength(400)]
+        public virtual string Description { get; set; }
 
         public virtual Invoice Invoices { get; set; }
         [ForeignKey("Id")]
-        public int InvoiceId { get; set; }
+        public virtual int InvoiceId { get; set; }
 
         public virtual int QTY { get; set; }
         public virtual double Price { get; set; }

@@ -7,6 +7,7 @@ namespace Test1.Invoices.Dto
     public class InvoiceDetailListDto : Entity<int>, IHasCreationTime
     {
         public int InvoiceId { get; set; }
+        public string Description { get; set; }
         public int QTY { get; set; }
         public double Price { get; set; }
         public  double TotalLine { get; set; }

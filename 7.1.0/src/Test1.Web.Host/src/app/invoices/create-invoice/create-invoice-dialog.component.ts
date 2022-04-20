@@ -41,6 +41,7 @@ export class CreateInvoiceDialogComponent extends AppComponentBase implements On
 
   initRows() {
     return this._fb.group({
+      description: [""],
       qty: [""],
       price: [""],
       totalLine: [""]
@@ -111,9 +112,11 @@ export class CreateInvoiceDialogComponent extends AppComponentBase implements On
     this.saving = true;
     let details: CreateInvoiceDetailDto[] = [];
     this.formArr.controls.forEach((product) => {
-      if (product.value.price != "" && product.value.qty != "") {
+      if (product.value.price != "" && product.value.qty != ""
+        && product.value.description != "") {
         details.push(<CreateInvoiceDetailDto>
           {
+            description: product.value.description,
             qty: parseInt(product.value.qty),
             price: parseFloat(product.value.price),
             totalLine: parseInt(product.value.qty) * parseFloat(product.value.price),

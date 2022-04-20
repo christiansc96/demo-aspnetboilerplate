@@ -1,6 +1,7 @@
 import { ICreateInvoiceDetailDto } from './../interfaces/create.invoice.detail.interface';
 
 export class CreateInvoiceDetailDto implements ICreateInvoiceDetailDto {
+    description: string;
     qty: number;
     price: number;
     totalLine: number;
@@ -16,6 +17,7 @@ export class CreateInvoiceDetailDto implements ICreateInvoiceDetailDto {
 
     init(_data?: any) {
         if (_data) {
+            this.description = _data["description"];
             this.qty = _data["qty"];
             this.price = _data["price"];
             this.totalLine = _data["totalLine"];
@@ -28,19 +30,4 @@ export class CreateInvoiceDetailDto implements ICreateInvoiceDetailDto {
         result.init(data);
         return result;
     }
-
-    // toJSON(data?: any) {
-    //     data = typeof data === 'object' ? data : {};
-    //     data["qty"] = this.qty;
-    //     data["price"] = this.price;
-    //     data["totalLine"] = this.totalLine;
-    //     return data;
-    // }
-
-    // clone(): CreateInvoiceDetailDto {
-    //     const json = this.toJSON();
-    //     let result = new CreateInvoiceDetailDto();
-    //     result.init(json);
-    //     return result;
-    // }
 }

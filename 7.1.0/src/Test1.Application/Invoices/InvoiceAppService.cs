@@ -53,6 +53,7 @@ namespace Test1.Invoices
                         await _invoiceDetailRepository.InsertAsync(new InvoiceDetail
                         {
                             InvoiceId = newInvoice,
+                            Description = detail.Description,
                             QTY = detail.qty,
                             Price = detail.price,
                             TotalLine = detail.qty * detail.price
@@ -115,6 +116,7 @@ namespace Test1.Invoices
                 Details = invoiceDetailsFromDatabase.Select(invoice => new InvoiceDetailListDto()
                 {
                     Id = invoice.Id,
+                    Description = invoice.Description,
                     InvoiceId = invoice.InvoiceId,
                     QTY = invoice.QTY,
                     Price = invoice.Price,

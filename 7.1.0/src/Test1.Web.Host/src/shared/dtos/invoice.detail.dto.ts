@@ -4,6 +4,7 @@ import * as moment from 'moment';
 export class InvoiceDetailDto implements IInvoiceDetailDto {
     id: number;
     invoiceId: number;
+    description: string;
     qty: number;
     price: number;
     totalLine: number;
@@ -22,6 +23,7 @@ export class InvoiceDetailDto implements IInvoiceDetailDto {
         if (_data) {
             this.id = _data["id"];
             this.invoiceId = _data["invoiceId"];
+            this.description = _data["description"];
             this.qty = _data["qty"];
             this.price = _data["price"];
             this.totalLine = _data["totalLine"];
